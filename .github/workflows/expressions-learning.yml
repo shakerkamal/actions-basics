@@ -1,0 +1,33 @@
+on: push
+
+jobs:
+    testing:
+      strategy:
+        matrix:
+          os: [windows-latest, ubuntu-latest]
+      runs-on: ${{ matrix.os }}
+
+      steps:
+        - name: Testing on Ubuntu
+          if: runner.os == 'Linux'
+          run: |
+            export apiKey=$3cuR3-t0k3N
+            echo "Running Tests ... .. ."
+            
+        - name: Testing on Windows
+          if: runner.os == 'Windows'
+          run: |
+            Set-Variable -Name "apiKey" -Value "$3cuR3-t0k3N"
+            echo "Running Tests ... .. ."
+
+    reports:
+        needs: testing
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Upload Report to AWS S3
+            run: echo "Uploading reports ... .. ." && exit 1
+
+    deploy:
+      runs-on: ubuntu-latest
+      needs: reports

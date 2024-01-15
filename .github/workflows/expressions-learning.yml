@@ -21,12 +21,12 @@ jobs:
             echo "Running Tests ... .. ."
 
     reports:
-        needs: testing
-        runs-on: ubuntu-latest
-
-        steps:
-          - name: Upload Report to AWS S3
-            run: echo "Uploading reports ... .. ." && exit 1
+      needs: testing
+      runs-on: ubuntu-latest
+      continue-on-error: true
+      steps:
+        - name: Upload Report to AWS S3
+          run: echo "Uploading reports ... .. ." && exit 1
 
     deploy:
       runs-on: ubuntu-latest
